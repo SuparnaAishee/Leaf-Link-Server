@@ -2,11 +2,12 @@ import bcrypt from 'bcryptjs';
 import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
-import AppError from '../../errors/AppError';
+
 import { createToken } from '../../utils/verifyJWT';
 import { USER_ROLE } from '../User/user.constant';
 import { User } from '../User/user.model';
 import { TLoginUser, TRegisterUser } from './auth.interface';
+import AppError from '../../errors/AppError';
 
 const registerUser = async (payload: TRegisterUser) => {
   // checking if the user is exist

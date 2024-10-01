@@ -3,9 +3,11 @@
 import cors from 'cors';
 import express, { Application, NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status';
-import globalErrorHandler from './app/middlewares/globalErrorHandler';
+
 import routes from './app/routes';
 import notFound from './app/middlewares/notFound';
+import globalErrorHandler from './app/middlewares/globalErrorHandler';
+
 
 const app: Application = express();
 
@@ -14,7 +16,7 @@ app.use(cors());
 //parser
 app.use(express.json());
 
-app.use('/api/v1', routes);
+app.use('/api', routes);
 
 //Testing
 app.get('/', (req: Request, res: Response, next: NextFunction) => {

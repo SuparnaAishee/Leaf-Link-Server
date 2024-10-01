@@ -12,12 +12,12 @@ export type TUser = {
   passwordChangedAt?: Date;
   mobileNumber?: string;
   profilePhoto?: string;
-  bio?: string; // Short bio or description of the user (optional)
-  isVerified: boolean; // Indicates whether the user is verified
-  premiumStatus: boolean; // Indicates whether the user has premium access
-  followers?: Types.ObjectId[]; // Array of user IDs who follow this user
-  following?: Types.ObjectId[]; // Array of user IDs this user is following
-  posts?: Types.ObjectId[]; // Array of post IDs created by the user
+  bio?: string; 
+  isVerified: boolean; 
+  premiumStatus: boolean; 
+  followers?: Types.ObjectId[];
+  following?: Types.ObjectId[]; 
+  posts?: Types.ObjectId[];
   favorites?: Types.ObjectId[];
   createdAt?: Date;
   updatedAt?: Date;
