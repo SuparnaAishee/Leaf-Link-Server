@@ -10,9 +10,14 @@ import globalErrorHandler from './app/middlewares/globalErrorHandler';
 
 
 const app: Application = express();
-
-app.use(cors());
-
+app.use(
+  cors({
+    origin: 'http://localhost:3000', // Frontend URL
+    credentials: true, // Allow cookies
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Allowed methods
+    allowedHeaders: 'Content-Type,Authorization', // Allowed headers
+  })
+);
 //parser
 app.use(express.json());
 
@@ -22,7 +27,7 @@ app.use('/api', routes);
 app.get('/', (req: Request, res: Response, next: NextFunction) => {
   res.status(httpStatus.OK).json({
     success: true,
-    message: 'Welcome to the Lost And Found API',
+    message: 'Welcome to the LeafLink',
   });
 });
 

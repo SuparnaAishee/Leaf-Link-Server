@@ -9,7 +9,22 @@ const getMyProfile = async (user: JwtPayload) => {
   const profile = await User.findOne({
     email: user.email,
     status: USER_STATUS.ACTIVE,
-  });
+  })
+    .populate('followers')
+    .populate('following')
+    .populate('posts')
+    .populate({
+      path: 'favorites',
+      populate: {
+        path: 'upvotes',
+      },
+    })
+    .populate({
+      path: 'favorites',
+      populate: {
+        path: 'downvotes',
+      },
+    });
 
   if (!profile) {
     throw new AppError(httpStatus.NOT_FOUND, 'User does not exixts!');
@@ -17,11 +32,14 @@ const getMyProfile = async (user: JwtPayload) => {
 
   return profile;
 };
-
 const updateMyProfile = async (
   user: JwtPayload,
   data: Partial<TUserProfileUpdate>
 ) => {
+  if (!user || !user.email) {
+    throw new AppError(httpStatus.UNAUTHORIZED, 'User not authenticated');
+  }
+
   const filter = {
     email: user.email,
     status: USER_STATUS.ACTIVE,
@@ -30,11 +48,12 @@ const updateMyProfile = async (
   const profile = await User.findOne(filter);
 
   if (!profile) {
-    throw new AppError(httpStatus.NOT_FOUND, 'User profile does not exixts!');
+    throw new AppError(httpStatus.NOT_FOUND, 'User profile does not exist!');
   }
 
   return await User.findOneAndUpdate(filter, data, { new: true });
 };
+
 
 export const ProfileServices = {
   getMyProfile,

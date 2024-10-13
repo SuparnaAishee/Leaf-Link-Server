@@ -12,11 +12,11 @@ export type TUser = {
   passwordChangedAt?: Date;
   mobileNumber?: string;
   profilePhoto?: string;
-  bio?: string; 
-  isVerified: boolean; 
-  premiumStatus: boolean; 
+  bio?: string;
+  isVerified: boolean;
+  premiumStatus: boolean;
   followers?: Types.ObjectId[];
-  following?: Types.ObjectId[]; 
+  following?: Types.ObjectId[];
   posts?: Types.ObjectId[];
   favorites?: Types.ObjectId[];
   createdAt?: Date;

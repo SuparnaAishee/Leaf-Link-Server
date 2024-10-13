@@ -23,7 +23,7 @@ const registerUser = async (payload: TRegisterUser) => {
   const newUser = await User.create(payload);
 
   //create token and sent to the  client
-
+  console.log(newUser);
   const jwtPayload = {
     _id: newUser._id,
     name: newUser.name,
@@ -31,8 +31,19 @@ const registerUser = async (payload: TRegisterUser) => {
     mobileNumber: newUser.mobileNumber,
     profilePhoto: newUser.profilePhoto,
     role: newUser.role,
+    bio: newUser.bio,
     status: newUser.status,
+    premiumStatus: newUser?.premiumStatus,
+    followers: newUser?.followers,
+    following: newUser?.following,
+    posts: newUser?.posts,
+    favorites: newUser?.favorites,
+    createdAt: newUser?.createdAt,
+    updatedAt: newUser?.updatedAt,
+    isVerified:newUser?.isVerified,
+    
   };
+
 
   const accessToken = createToken(
     jwtPayload,
@@ -81,7 +92,16 @@ const loginUser = async (payload: TLoginUser) => {
     mobileNumber: user.mobileNumber,
     profilePhoto: user.profilePhoto,
     role: user.role,
+    bio: user.bio,
     status: user.status,
+    isVerified: user?.isVerified,
+    premiumStatus: user?.premiumStatus,
+    followers: user?.followers,
+    following: user?.following,
+    posts: user?.posts,
+    favorites: user?.favorites,
+    createdAt: user?.createdAt,
+    updatedAt: user?.updatedAt,
   };
 
   const accessToken = createToken(
@@ -184,6 +204,14 @@ const refreshToken = async (token: string) => {
     profilePhoto: user.profilePhoto,
     role: user.role,
     status: user.status,
+    isVerified: user?.isVerified,
+    premiumStatus: user?.premiumStatus,
+    followers: user?.followers,
+    following: user?.following,
+    posts: user?.posts,
+    favorites: user?.favorites,
+    createdAt: user?.createdAt,
+    updatedAt: user?.updatedAt,
   };
 
   const accessToken = createToken(

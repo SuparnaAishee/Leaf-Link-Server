@@ -11,14 +11,46 @@ export const UserRoutes = router;
 
 router.post(
   '/create-post',
+  
   validateRequest(postValidation.createPostValidationSchema),
   postController.createPost
 );
-router.put('/vote', postController.updatePostVote);
+
+router.post(
+  '/vote',
+ 
+  postController.updatePostVote
+);// auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+
+router.put(
+  '/bookmark',
+  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  postController.bookmarkFavoritePost
+);
+router.get('/', postController.getAllPost);
+router.get('/:postId', postController.getSinglePost);
+router.get('/user/:userId', postController.getSingleUserPosts);
+// router.get(
+//   '/users/upvoters',
+//   auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+//   postController.getUpvotersForMyPosts
+// );
+
 router.get(
   '/get-my-post',
   auth(USER_ROLE.ADMIN, USER_ROLE.USER),
   postController.getUserPost
 );
+router.delete(
+  '/:postId',
+  
+  postController.deletePost
+);//auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+router.put(
+  '/update-post/:postId',
+  
+  validateRequest(postValidation.updatePostValidationSchema),
+  postController.updateSinglePost
+);//auth(USER_ROLE.ADMIN, USER_ROLE.USER),
 
 export const postRoutes = router;

@@ -11,6 +11,9 @@ export const createToken = (
     name: string;
     email: string;
     mobileNumber?: string;
+    bio?: string;
+    isVerified: boolean;
+    premiumStatus:boolean;
     role: keyof typeof USER_ROLE;
     status: keyof typeof USER_STATUS;
   },

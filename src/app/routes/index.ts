@@ -5,6 +5,12 @@ import { UserRoutes } from '../modules/User/user.route';
 import { postRoutes } from '../modules/Post/post.route';
 import { ProfileRoutes } from '../modules/Profile/profile.route';
 import { followRoutes } from '../modules/Follow/follow.route';
+import { commentRoutes } from '../modules/Comment/comment.route';
+
+import { paymentRoute } from '../modules/payment/payment.route';
+import { successRoute } from '../modules/payment/success.route';
+import { verifyProfileRoute } from '../modules/VerifyProfile/verifyProfile.route';
+
 
 const router = express.Router();
 
@@ -29,6 +35,22 @@ const moduleRoutes = [
   {
     path: '/follow',
     route: followRoutes,
+  },
+  {
+    path: '/comment',
+    route: commentRoutes,
+  },
+  {
+    path: '/verify-profile',
+    route: verifyProfileRoute,
+  },
+  {
+    path: '/success',
+    route: successRoute,
+  },
+  {
+    path: '/payments',
+    route: paymentRoute,
   },
 ];
 
