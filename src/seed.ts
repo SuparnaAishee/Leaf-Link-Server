@@ -5,7 +5,11 @@
  * Populates the database with sample LeafLink gardening content:
  * users, posts across every category, comments, follows and upvotes.
  *
- * Run with:  npx ts-node src/seed.ts
+ * Run additively (keeps your own account, your comments, etc.):
+ *   npx ts-node src/seed.ts
+ *
+ * Run as a full reset (wipes all users/posts/comments first):
+ *   SEED_RESET=1 npx ts-node src/seed.ts
  *
  * All sample users share the password "password123"
  * (admin@gmail.com uses "admin123").
@@ -28,6 +32,22 @@ const AVATARS = {
     'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&h=200&fit=crop',
   admin:
     'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=200&h=200&fit=crop',
+  asha:
+    'https://images.unsplash.com/photo-1531123897727-8f129e1688ce?w=200&h=200&fit=crop',
+  jordan:
+    'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=200&h=200&fit=crop',
+  yara:
+    'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&h=200&fit=crop',
+  ben:
+    'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=200&h=200&fit=crop',
+  sophie:
+    'https://images.unsplash.com/photo-1554151228-14d9def656e4?w=200&h=200&fit=crop',
+  diego:
+    'https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=200&h=200&fit=crop',
+  nina:
+    'https://images.unsplash.com/photo-1499952127939-9bbf5af6c51c?w=200&h=200&fit=crop',
+  owen:
+    'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&h=200&fit=crop&sat=-30',
 };
 
 type SeedUser = {
@@ -100,6 +120,81 @@ const usersSeed: SeedUser[] = [
     role: 'ADMIN',
     bio: 'Keeping the garden tidy.',
     profilePhoto: AVATARS.admin,
+  },
+  {
+    key: 'asha',
+    name: 'Asha Iyer',
+    email: 'asha@leaflink.com',
+    password: 'password123',
+    role: 'USER',
+    bio: 'Bonsai practitioner since 2011. Patience over everything 🌳',
+    profilePhoto: AVATARS.asha,
+    isVerified: true,
+  },
+  {
+    key: 'jordan',
+    name: 'Jordan Lee',
+    email: 'jordan@leaflink.com',
+    password: 'password123',
+    role: 'USER',
+    bio: 'Permaculture designer. Edges, not borders.',
+    profilePhoto: AVATARS.jordan,
+  },
+  {
+    key: 'yara',
+    name: 'Yara Khan',
+    email: 'yara@leaflink.com',
+    password: 'password123',
+    role: 'USER',
+    bio: 'Succulent and cactus collector. Sun lover ☀️',
+    profilePhoto: AVATARS.yara,
+  },
+  {
+    key: 'ben',
+    name: 'Ben Carter',
+    email: 'ben@leaflink.com',
+    password: 'password123',
+    role: 'USER',
+    bio: 'Hydroponics tinkerer. Lettuce in 30 days flat.',
+    profilePhoto: AVATARS.ben,
+    isVerified: true,
+  },
+  {
+    key: 'sophie',
+    name: 'Sophie Müller',
+    email: 'sophie@leaflink.com',
+    password: 'password123',
+    role: 'USER',
+    bio: 'Microgreens on the kitchen counter. Tiny nutrition.',
+    profilePhoto: AVATARS.sophie,
+  },
+  {
+    key: 'diego',
+    name: 'Diego Alvarez',
+    email: 'diego@leaflink.com',
+    password: 'password123',
+    role: 'USER',
+    bio: 'Citrus and tropical fruit obsessed. Zone 9b.',
+    profilePhoto: AVATARS.diego,
+  },
+  {
+    key: 'nina',
+    name: 'Nina Petrova',
+    email: 'nina@leaflink.com',
+    password: 'password123',
+    role: 'USER',
+    bio: 'Pollinator garden + wildflower meadows 🐝',
+    profilePhoto: AVATARS.nina,
+    isVerified: true,
+  },
+  {
+    key: 'owen',
+    name: 'Owen Walsh',
+    email: 'owen@leaflink.com',
+    password: 'password123',
+    role: 'USER',
+    bio: 'English cottage garden. Cut flowers all summer.',
+    profilePhoto: AVATARS.owen,
   },
 ];
 
@@ -202,6 +297,96 @@ const postsSeed: SeedPost[] = [
     imageUrl:
       'https://images.unsplash.com/photo-1468327768560-75b778cbb551?w=800&fit=crop',
   },
+  {
+    author: 'asha',
+    title: 'Wiring a juniper bonsai for the first time',
+    category: 'Outdoor',
+    description:
+      'Use anodized aluminum wire ~1/3 the branch thickness. Wrap at 45°, never leave wire on more than 6-8 weeks or it scars the bark forever.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1469474968028-56623f02e42e?w=800&fit=crop',
+  },
+  {
+    author: 'jordan',
+    title: 'Why I planted comfrey along every fruit tree',
+    category: 'Organic',
+    description:
+      'Comfrey mines deep nutrients and you chop-and-drop it 3x a season as a free mulch + fertilizer. Best dynamic accumulator I know.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?w=800&fit=crop',
+  },
+  {
+    author: 'yara',
+    title: 'Echeveria sunburn — what I learned the hard way',
+    category: 'Indoor',
+    description:
+      'Even sun-loving succulents need to be hardened off slowly. Move from indoors to bright shade for 2 weeks, then morning sun only.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1459411552884-841db9b3cc2a?w=800&fit=crop',
+  },
+  {
+    author: 'ben',
+    title: 'Kratky-method lettuce in mason jars',
+    category: 'Vegetables',
+    description:
+      'No pumps, no electricity. A net cup, a hydroton pebble layer, and a jar of nutrient solution. Three weeks to a salad.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=800&fit=crop',
+  },
+  {
+    author: 'sophie',
+    title: 'Microgreens give you fresh greens in 10 days',
+    category: 'Herbs',
+    description:
+      'Soak seeds 8h, sow dense on damp soil, weight them down for 2 days, then expose to light. Sunflower and pea shoots are the easiest start.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1471193945509-9ad0617afabf?w=800&fit=crop',
+  },
+  {
+    author: 'diego',
+    title: 'Overwintering Meyer lemons indoors',
+    category: 'Indoor',
+    description:
+      "I bring my Meyer in once nights drop below 50°F. South window, humidifier nearby, and I cut watering in half. Don't fertilize until March.",
+    imageUrl:
+      'https://images.unsplash.com/photo-1528825871115-3581a5387919?w=800&fit=crop',
+  },
+  {
+    author: 'nina',
+    title: "Wildflower meadow strip — year one results",
+    category: 'Flowers',
+    description:
+      'Converted 200 sq ft of lawn into a pollinator strip with a regional native seed mix. By June I counted 14 bee species visiting.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800&fit=crop',
+  },
+  {
+    author: 'owen',
+    title: 'Cut-and-come-again zinnias for endless bouquets',
+    category: 'Flowers',
+    description:
+      "Pinch the central stem when zinnias are 8-10\" tall. Sounds painful but it triggers branching and you'll get 4x the cut stems all summer.",
+    imageUrl:
+      'https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=800&fit=crop&sat=-50',
+  },
+  {
+    author: 'asha',
+    title: 'Repotting season — root pruning a 12-year ficus',
+    category: 'Outdoor',
+    description:
+      'Trim no more than 1/3 of the root mass. Pack fresh akadama, water until it runs clear, then shade for 2 weeks. Patience is the only shortcut.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&fit=crop&sat=20',
+  },
+  {
+    author: 'jordan',
+    title: 'Three-sisters bed: corn, beans, squash',
+    category: 'Vegetables',
+    description:
+      'Corn gives the beans a trellis, beans fix nitrogen for the corn, squash leaves shade out weeds. The OG companion planting trio.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&fit=crop',
+  },
 ];
 
 // Comments keyed by post index -> [ [authorKey, text], ... ]
@@ -209,24 +394,60 @@ const commentsSeed: Record<number, [keyof typeof AVATARS, string][]> = {
   0: [
     ['mike', 'Great tip! My basil always flowers too early.'],
     ['lily', 'Mine is on a south-facing window and loving it.'],
+    ['sophie', 'Pinching really is the secret — agreed.'],
   ],
   1: [
     ['sarah', 'Those look incredible 😍'],
     ['raj', 'Mulching really is underrated for tomatoes.'],
     ['emma', 'Congrats on the harvest!'],
+    ['ben', 'How are your evening temps? Mine drop too fast.'],
   ],
-  2: [['lily', 'Tulips are the best part of spring.']],
+  2: [
+    ['lily', 'Tulips are the best part of spring.'],
+    ['owen', 'I plant a fresh batch each October too — never get tired of them.'],
+  ],
   3: [
     ['mike', 'Been meaning to build one of these. Thanks for the ratio!'],
     ['sarah', 'Pallet projects are the best.'],
+    ['jordan', 'Pallet wood + comfrey leaves = top tier hot compost 🔥'],
   ],
-  4: [['emma', 'The leaf fenestration is so satisfying.']],
-  5: [['raj', '$50 is a steal. Cedar lasts for years too.']],
+  4: [
+    ['emma', 'The leaf fenestration is so satisfying.'],
+    ['yara', 'Mine took 2 years to split. Worth the wait.'],
+  ],
+  5: [
+    ['raj', '$50 is a steal. Cedar lasts for years too.'],
+    ['nina', 'I edged mine with wildflower mix — pollinators love it.'],
+  ],
   8: [['sarah', 'Propagation is addictive, you have been warned 😂']],
+  // New user posts (indexes shift — these correspond to the appended posts).
+  10: [
+    ['emma', 'Wiring is the part I keep putting off. Thanks for the timeline.'],
+    ['jordan', 'Aluminum is so much friendlier than copper for beginners.'],
+  ],
+  11: [
+    ['raj', 'Comfrey is my secret weapon too.'],
+    ['nina', 'Bocking 14 is non-spreading if you want to skip the takeover risk.'],
+  ],
+  12: [['sarah', 'Tell me about it — burned a whole tray last spring 😅']],
+  13: [
+    ['ben', 'Kratky changed my apartment gardening game.'],
+    ['sophie', 'Anyone else tried this with arugula? Curious.'],
+  ],
+  14: [['lily', 'Microgreens are an amazing winter project.']],
+  15: [['owen', 'Meyer lemons indoors smell incredible in February.']],
+  16: [
+    ['emma', '14 bee species is huge. What was the seed mix?'],
+    ['jordan', 'Strips like this around the property edges = stacking functions.'],
+  ],
+  17: [
+    ['sarah', 'I need to remember to pinch — I always forget the first time.'],
+  ],
 };
 
 // Follow relationships: follower -> following
 const followsSeed: [keyof typeof AVATARS, keyof typeof AVATARS][] = [
+  // Original web
   ['mike', 'sarah'],
   ['emma', 'sarah'],
   ['raj', 'sarah'],
@@ -235,22 +456,56 @@ const followsSeed: [keyof typeof AVATARS, keyof typeof AVATARS][] = [
   ['mike', 'emma'],
   ['raj', 'lily'],
   ['sarah', 'lily'],
+  // New users following established gardeners
+  ['asha', 'sarah'],
+  ['jordan', 'raj'],
+  ['yara', 'lily'],
+  ['ben', 'mike'],
+  ['sophie', 'sarah'],
+  ['diego', 'emma'],
+  ['nina', 'emma'],
+  ['owen', 'emma'],
+  // Established users following the new ones
+  ['sarah', 'nina'],
+  ['emma', 'owen'],
+  ['lily', 'yara'],
+  ['mike', 'ben'],
+  ['raj', 'jordan'],
+  // Mutual interest among new users
+  ['asha', 'jordan'],
+  ['jordan', 'nina'],
+  ['sophie', 'ben'],
+  ['yara', 'diego'],
+  ['nina', 'owen'],
 ];
 
 async function seed() {
+  const reset = process.env.SEED_RESET === '1';
+
   await mongoose.connect(config.db_url as string);
   console.log('🛢  Connected to', config.db_url);
 
-  console.log('🧹 Clearing existing users, posts and comments...');
-  await Promise.all([
-    User.deleteMany({}),
-    Post.deleteMany({}),
-    Comment.deleteMany({}),
-  ]);
+  if (reset) {
+    console.log('🧹 SEED_RESET=1 → wiping users, posts and comments...');
+    await Promise.all([
+      User.deleteMany({}),
+      Post.deleteMany({}),
+      Comment.deleteMany({}),
+    ]);
+  } else {
+    console.log('➕ Additive mode — your own users/posts/comments stay put. Set SEED_RESET=1 to wipe.');
+  }
 
-  // 1) Users (saved individually so the pre-save hook hashes passwords)
+  // 1) Users — only create when absent so re-runs are idempotent (and so the
+  //    pre-save hook re-hashes passwords on the first run only).
   const userIdByKey: Record<string, mongoose.Types.ObjectId> = {};
+  let usersCreated = 0;
   for (const u of usersSeed) {
+    const existing = await User.findOne({ email: u.email });
+    if (existing) {
+      userIdByKey[u.key] = existing._id as unknown as mongoose.Types.ObjectId;
+      continue;
+    }
     const created = await User.create({
       name: u.name,
       email: u.email,
@@ -262,15 +517,29 @@ async function seed() {
       isVerified: u.isVerified ?? false,
       premiumStatus: u.premiumStatus ?? false,
     });
-    userIdByKey[u.key] = created._id as mongoose.Types.ObjectId;
+    userIdByKey[u.key] = created._id as unknown as mongoose.Types.ObjectId;
+    usersCreated++;
   }
-  console.log(`👤 Created ${usersSeed.length} users`);
+  console.log(
+    `👤 Users — ${usersCreated} new, ${usersSeed.length - usersCreated} already present`,
+  );
 
-  // 2) Posts
+  // 2) Posts — keyed by (user, title) for idempotency.
   const postIds: mongoose.Types.ObjectId[] = [];
+  let postsCreated = 0;
   for (let i = 0; i < postsSeed.length; i++) {
     const p = postsSeed[i];
     const authorId = userIdByKey[p.author];
+    if (!authorId) continue;
+
+    const existingPost = await Post.findOne({
+      user: authorId,
+      title: p.title,
+    });
+    if (existingPost) {
+      postIds.push(existingPost._id as unknown as mongoose.Types.ObjectId);
+      continue;
+    }
 
     // Give each post a believable set of upvotes from other users.
     const upvoters = Object.entries(userIdByKey)
@@ -289,39 +558,53 @@ async function seed() {
       downvotes: [],
       comments: [],
     });
-    postIds.push(post._id as mongoose.Types.ObjectId);
+    postIds.push(post._id as unknown as mongoose.Types.ObjectId);
+    postsCreated++;
 
     await User.findByIdAndUpdate(authorId, {
       $addToSet: { posts: post._id },
     });
   }
-  console.log(`📝 Created ${postsSeed.length} posts`);
+  console.log(
+    `📝 Posts — ${postsCreated} new, ${postsSeed.length - postsCreated} already present`,
+  );
 
-  // 3) Comments (and sync them onto their post)
-  let commentCount = 0;
+  // 3) Comments (keyed by user+post+text for idempotency).
+  let commentsCreated = 0;
   for (const [postIdxStr, entries] of Object.entries(commentsSeed)) {
     const postId = postIds[Number(postIdxStr)];
+    if (!postId) continue;
     const postDoc = await Post.findById(postId);
     if (!postDoc) continue;
     for (const [authorKey, text] of entries) {
+      const authorId = userIdByKey[authorKey];
+      if (!authorId) continue;
+      const existingComment = await Comment.findOne({
+        post: postId,
+        user: authorId,
+        comment: text,
+      });
+      if (existingComment) continue;
+
       const comment = await Comment.create({
         comment: text,
         post: postId,
-        user: userIdByKey[authorKey],
+        user: authorId,
         postUser: postDoc.user,
       });
       await Post.findByIdAndUpdate(postId, {
         $addToSet: { comments: comment._id },
       });
-      commentCount++;
+      commentsCreated++;
     }
   }
-  console.log(`💬 Created ${commentCount} comments`);
+  console.log(`💬 Comments — ${commentsCreated} new`);
 
-  // 4) Follows (bidirectional)
+  // 4) Follows ($addToSet is already idempotent on both sides)
   for (const [followerKey, followingKey] of followsSeed) {
     const followerId = userIdByKey[followerKey];
     const followingId = userIdByKey[followingKey];
+    if (!followerId || !followingId) continue;
     await User.findByIdAndUpdate(followerId, {
       $addToSet: { following: followingId },
     });
@@ -329,12 +612,14 @@ async function seed() {
       $addToSet: { followers: followerId },
     });
   }
-  console.log(`🤝 Created ${followsSeed.length} follow relationships`);
+  console.log(`🤝 Follows — ${followsSeed.length} relationships ensured`);
 
   console.log('\n✅ Seed complete!');
   console.log('   Login with any of:');
   usersSeed.forEach((u) =>
-    console.log(`   - ${u.email}  /  ${u.password}${u.role === 'ADMIN' ? '  (admin)' : ''}`)
+    console.log(
+      `   - ${u.email}  /  ${u.password}${u.role === 'ADMIN' ? '  (admin)' : ''}`,
+    ),
   );
 
   await mongoose.disconnect();
