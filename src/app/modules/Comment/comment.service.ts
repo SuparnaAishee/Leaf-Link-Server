@@ -75,6 +75,12 @@ const createCommentInToDB = async (payload: IComment) => {
   }
   payload.postUser = isPostExist.user;
   const result = await Comment.create(payload);
+
+  // Keep the post's comments array in sync so comment counts are accurate.
+  await Post.findByIdAndUpdate(payload.post, {
+    $addToSet: { comments: result._id },
+  });
+
   return result;
 };
 
@@ -120,10 +126,23 @@ const deleteCommentFromDB = async (id: string) => {
     throw new AppError(httpStatus.NOT_FOUND, 'This comment is not exist');
   }
 
+  // Remove the comment reference from its post.
+  await Post.findByIdAndUpdate(isCommentExist.post, {
+    $pull: { comments: id },
+  });
+
   return await Comment.findByIdAndDelete(id, {
     new: true,
     runValidators: true,
   });
+};
+
+const getCommentsByPostFromDB = async (postId: string) => {
+  const result = await Comment.find({ post: postId })
+    .populate('user')
+    .populate('postUser')
+    .populate('post');
+  return result;
 };
 
 export const commentService = {
@@ -132,4 +151,5 @@ export const commentService = {
   editCommentInToDB,
   getSingleCommentFromDB,
   deleteCommentFromDB,
+  getCommentsByPostFromDB,
 };

@@ -114,10 +114,22 @@ const deleteComment = catchAsync(async (req, res) => {
   });
 });
 
+const getCommentsByPost = catchAsync(async (req, res) => {
+  const { postId } = req.params;
+  const comments = await commentService.getCommentsByPostFromDB(postId);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Comments for the post retrieved successfully!',
+    data: comments,
+  });
+});
+
 export const commentController = {
   createComment,
   getAllComment,
   editComment,
   getSingleComment,
   deleteComment,
+  getCommentsByPost,
 };
