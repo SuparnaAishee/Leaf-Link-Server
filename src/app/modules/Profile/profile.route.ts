@@ -10,14 +10,15 @@ const router = express.Router();
 
 router.get(
   '/',
-  
+  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
   ProfileController.getMyProfile
-);//auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+);
 
 router.put(
   '/update',
-  
-  ProfileController.updateMyProfile);
+  auth(USER_ROLE.ADMIN, USER_ROLE.USER),
+  ProfileController.updateMyProfile,
+);
 
 router.get(
   '/get-my-post',
