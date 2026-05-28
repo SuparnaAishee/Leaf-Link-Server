@@ -13,6 +13,8 @@ const createCommentValidationSchema = z.object({
     user: z.string({
       required_error: 'User is required',
     }),
+
+    parentComment: z.string().optional().nullable(),
   }),
 });
 

@@ -5,4 +5,5 @@ export interface IComment {
   post: Types.ObjectId;
   user: Types.ObjectId;
   postUser: Types.ObjectId;
+  parentComment?: Types.ObjectId | null;
 }
