@@ -12,6 +12,8 @@ import { successRoute } from '../modules/payment/success.route';
 import { verifyProfileRoute } from '../modules/VerifyProfile/verifyProfile.route';
 import { aiRoutes } from '../modules/Ai/ai.route';
 import { notificationRoutes } from '../modules/Notification/notification.route';
+import { plantRoutes } from '../modules/Plant/plant.route';
+import { aiScanRoutes } from '../modules/AiScan/aiScan.route';
 
 
 const router = express.Router();
@@ -61,6 +63,14 @@ const moduleRoutes = [
   {
     path: '/notifications',
     route: notificationRoutes,
+  },
+  {
+    path: '/plants',
+    route: plantRoutes,
+  },
+  {
+    path: '/ai-scans',
+    route: aiScanRoutes,
   },
 ];
 
