@@ -5,6 +5,7 @@ import { readFileSync } from 'fs';
 
 import { User } from '../User/user.model';
 import { VerifyProfile } from '../VerifyProfile/verifyProfile.model';
+import { notificationService } from '../Notification/notification.service';
 
 const makePayment = async (transactionId: string, status: string) => {
   let greeting;
@@ -21,6 +22,14 @@ const makePayment = async (transactionId: string, status: string) => {
       { _id: verifyUser?.user },
       { isVerified: true, premiumStatus: true }
     );
+
+    if (verifyUser?.user) {
+      void notificationService.createNotification({
+        recipient: verifyUser.user as any,
+        type: 'premium',
+        message: 'Your Premium membership is active 🌿',
+      });
+    }
   }
 
   const filePath = join(__dirname, '../paymentConfirmation/index.html');

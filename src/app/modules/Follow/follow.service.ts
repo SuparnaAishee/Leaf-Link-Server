@@ -1,7 +1,9 @@
 import httpStatus from 'http-status';
+import mongoose from 'mongoose';
 import { User } from '../User/user.model';
 import { JwtPayload } from 'jsonwebtoken';
 import AppError from '../../errors/AppError';
+import { notificationService } from '../Notification/notification.service';
 
 const followUser = async (
   user: JwtPayload,
@@ -61,6 +63,12 @@ const followUser = async (
       { $addToSet: { following: payload.followingId } },
       { new: true }
     );
+
+    void notificationService.createNotification({
+      recipient: new mongoose.Types.ObjectId(payload.followingId),
+      actor: new mongoose.Types.ObjectId(user._id),
+      type: 'follow',
+    });
 
     return {
       result,

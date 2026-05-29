@@ -11,6 +11,7 @@ import { paymentRoute } from '../modules/payment/payment.route';
 import { successRoute } from '../modules/payment/success.route';
 import { verifyProfileRoute } from '../modules/VerifyProfile/verifyProfile.route';
 import { aiRoutes } from '../modules/Ai/ai.route';
+import { notificationRoutes } from '../modules/Notification/notification.route';
 
 
 const router = express.Router();
@@ -56,6 +57,10 @@ const moduleRoutes = [
   {
     path: '/ai',
     route: aiRoutes,
+  },
+  {
+    path: '/notifications',
+    route: notificationRoutes,
   },
 ];
 

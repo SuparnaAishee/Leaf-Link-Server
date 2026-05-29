@@ -62,6 +62,7 @@ import { User } from '../User/user.model';
 import { IComment } from './comment.interface';
 import { Comment } from './comment.model';
 import { Post } from '../Post/post.model';
+import { notificationService } from '../Notification/notification.service';
 
 const createCommentInToDB = async (payload: IComment) => {
   const isUserExist = await User.findById(payload.user);
@@ -80,6 +81,28 @@ const createCommentInToDB = async (payload: IComment) => {
   await Post.findByIdAndUpdate(payload.post, {
     $addToSet: { comments: result._id },
   });
+
+  // Notify the post owner about the new comment (or the parent commenter for replies).
+  if (payload.parentComment) {
+    const parent = await Comment.findById(payload.parentComment);
+    if (parent && parent.user) {
+      void notificationService.createNotification({
+        recipient: parent.user,
+        actor: payload.user,
+        type: 'reply',
+        post: payload.post,
+        comment: result._id,
+      });
+    }
+  } else if (isPostExist.user) {
+    void notificationService.createNotification({
+      recipient: isPostExist.user,
+      actor: payload.user,
+      type: 'comment',
+      post: payload.post,
+      comment: result._id,
+    });
+  }
 
   return result;
 };

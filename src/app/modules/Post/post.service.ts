@@ -9,6 +9,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import { verifyToken } from '../../utils/verifyJWT';
 import config from '../../config';
 import { ObjectIdLike } from 'bson';
+import { notificationService } from '../Notification/notification.service';
 
 const createPostToDB = async (payload: TPost) => {
   const isUserExist = await User.findById(payload.user);
@@ -476,11 +477,21 @@ const updateVote = async (payload: { userId: string | ObjectId | ObjectIdLike | 
         );
       }
       // Add user to upvote array
-      return await Post.findByIdAndUpdate(
+      const updated = await Post.findByIdAndUpdate(
         payload.postId,
         { $addToSet: { upvotes: payload.userId } },
         { new: true }
       );
+      // Notify post owner about the new upvote.
+      if (isPostExist.user && payload.userId) {
+        void notificationService.createNotification({
+          recipient: isPostExist.user as any,
+          actor: payload.userId as any,
+          type: 'upvote',
+          post: payload.postId,
+        });
+      }
+      return updated;
     }
   }
 
