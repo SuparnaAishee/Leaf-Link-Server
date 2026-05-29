@@ -23,6 +23,16 @@ const createPostToDB = async (payload: TPost) => {
     { new: true }
   );
 
+  // Scan the post body for @handles and notify each mentioned user.
+  const mentionText = `${payload.title || ''} ${payload.description || ''}`;
+  if (mentionText.includes('@')) {
+    void notificationService.notifyMentions({
+      text: mentionText,
+      actor: payload.user as any,
+      post: post._id as any,
+    });
+  }
+
   return post;
 };
 const getUserPostFromDB = async (user: JwtPayload) => {
@@ -588,6 +598,20 @@ const deletePostFromDB = async (id: string) => {
   return result;
 };
 
+const getPostsByTagFromDB = async (tag: string) => {
+  // #hashtag bounded by start/whitespace and word boundary; case-insensitive.
+  const clean = tag.replace(/[^a-zA-Z0-9_]/g, '');
+  if (!clean) return [];
+  const regex = new RegExp(`(^|\\s)#${clean}\\b`, 'i');
+  return await Post.find({
+    $or: [{ description: { $regex: regex } }, { title: { $regex: regex } }],
+  })
+    .populate('user')
+    .populate('upvotes')
+    .populate('downvotes')
+    .sort({ createdAt: -1 });
+};
+
 const updatePostInToDD = async (id: string, payload: Partial<TPost>) => {
   const post = await Post.findById(id);
   if (!post) {
@@ -608,6 +632,7 @@ export const postService = {
   getAllPostFromDB,
   getSinglePostFromDB,
   getSingleUserPostsFromDB,
+  getPostsByTagFromDB,
   // getUpvotersForMyPosts,
   updatePostInToDD,
 };

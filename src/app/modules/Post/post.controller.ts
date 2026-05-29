@@ -121,6 +121,16 @@ const updateSinglePost = catchAsync(async (req, res) => {
   });
 });
 
+const getPostsByTag = catchAsync(async (req, res) => {
+  const result = await postService.getPostsByTagFromDB(req.params.tag);
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.OK,
+    message: 'Posts by tag retrieved successfully',
+    data: result,
+  });
+});
+
 export const postController = {
   createPost,
   getUserPost,
@@ -130,6 +140,6 @@ export const postController = {
   getAllPost,
   getSinglePost,
   getSingleUserPosts,
- 
+  getPostsByTag,
   updateSinglePost,
 };

@@ -27,6 +27,7 @@ router.put(
 );
 
 router.get('/', postController.getAllPost);
+router.get('/by-tag/:tag', postController.getPostsByTag);
 router.get('/:postId', postController.getSinglePost);
 router.get('/user/:userId', postController.getSingleUserPosts);
 

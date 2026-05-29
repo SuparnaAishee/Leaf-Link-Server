@@ -5,6 +5,7 @@ export type TNotificationType =
   | 'comment'
   | 'reply'
   | 'upvote'
+  | 'mention'
   | 'premium';
 
 export type TNotification = {

@@ -104,6 +104,16 @@ const createCommentInToDB = async (payload: IComment) => {
     });
   }
 
+  // Notify users mentioned in the comment body.
+  if (payload.comment && payload.comment.includes('@')) {
+    void notificationService.notifyMentions({
+      text: payload.comment,
+      actor: payload.user as any,
+      post: payload.post as any,
+      comment: result._id as any,
+    });
+  }
+
   return result;
 };
 
