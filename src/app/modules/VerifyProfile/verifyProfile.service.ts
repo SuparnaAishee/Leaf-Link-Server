@@ -3,7 +3,6 @@ import AppError from '../../errors/AppError';
 import { IVerifyProfile } from './verifyProfile.interface';
 import { VerifyProfile } from './verifyProfile.model';
 import { User } from '../User/user.model';
-import mongoose from 'mongoose';
 import { initiatePayment } from '../payment/payment.utils';
 
 const verifyProfile = async (payload: IVerifyProfile) => {
@@ -24,22 +23,13 @@ const verifyProfile = async (payload: IVerifyProfile) => {
   payload.transactionId = transactionId;
   payload.isPaid = true;
   payload.date = new Date();
-  const session = await mongoose.startSession();
-  try {
-    session.startTransaction();
 
-    await VerifyProfile.create([payload], { session });
-    await session.commitTransaction();
-    await session.endSession();
-  } catch (error: unknown) {
-    await session.abortTransaction();
-    await session.endSession();
-    if (error instanceof Error) {
-      throw new Error(error.message);
-    }
-  }
+  // Single create — no need for a transaction wrapper.
+  // (The previous mongoose.startSession() flow only works on a replica set;
+  // standalone local Mongo throws "Transaction numbers are only allowed on a replica set member or mongos".)
+  await VerifyProfile.create(payload);
+
   const paymentSession = await initiatePayment(paymentData);
-  console.log(paymentSession)
   return paymentSession;
 };
 

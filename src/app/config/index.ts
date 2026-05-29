@@ -17,4 +17,5 @@ export default {
   payment_verify_url: process.env.PAYMENT_VERIFY_URL,
   store_id: process.env.STORE_ID,
   signature_key: process.env.SIGNATURE_KEY,
+  server_base_url: process.env.SERVER_BASE_URL || 'http://localhost:5000',
 };
