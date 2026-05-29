@@ -34,7 +34,8 @@ const getMyNotifications = async (user: JwtPayload) => {
     .limit(50)
     .populate('actor', 'name profilePhoto isVerified')
     .populate('post', 'title imageUrl')
-    .populate('comment', 'comment');
+    .populate('comment', 'comment')
+    .populate('event', 'title date');
 };
 
 const getMyUnreadCount = async (user: JwtPayload) => {

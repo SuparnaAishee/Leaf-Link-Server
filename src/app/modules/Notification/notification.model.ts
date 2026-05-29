@@ -15,7 +15,7 @@ const notificationSchema = new Schema<TNotification>(
     },
     type: {
       type: String,
-      enum: ['follow', 'comment', 'reply', 'upvote', 'mention', 'premium'],
+      enum: ['follow', 'comment', 'reply', 'upvote', 'mention', 'rsvp', 'premium'],
       required: true,
     },
     post: {
@@ -25,6 +25,10 @@ const notificationSchema = new Schema<TNotification>(
     comment: {
       type: Schema.Types.ObjectId,
       ref: 'Comment',
+    },
+    event: {
+      type: Schema.Types.ObjectId,
+      ref: 'Event',
     },
     message: { type: String },
     read: { type: Boolean, default: false, index: true },

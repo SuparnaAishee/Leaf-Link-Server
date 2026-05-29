@@ -6,6 +6,7 @@ export type TNotificationType =
   | 'reply'
   | 'upvote'
   | 'mention'
+  | 'rsvp'
   | 'premium';
 
 export type TNotification = {
@@ -14,6 +15,7 @@ export type TNotification = {
   type: TNotificationType;
   post?: Types.ObjectId;
   comment?: Types.ObjectId;
+  event?: Types.ObjectId;
   message?: string;
   read: boolean;
   createdAt?: Date;

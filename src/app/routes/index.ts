@@ -14,6 +14,7 @@ import { aiRoutes } from '../modules/Ai/ai.route';
 import { notificationRoutes } from '../modules/Notification/notification.route';
 import { plantRoutes } from '../modules/Plant/plant.route';
 import { aiScanRoutes } from '../modules/AiScan/aiScan.route';
+import { eventRoutes } from '../modules/Event/event.route';
 
 
 const router = express.Router();
@@ -71,6 +72,10 @@ const moduleRoutes = [
   {
     path: '/ai-scans',
     route: aiScanRoutes,
+  },
+  {
+    path: '/events',
+    route: eventRoutes,
   },
 ];
 
