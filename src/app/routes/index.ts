@@ -15,6 +15,7 @@ import { notificationRoutes } from '../modules/Notification/notification.route';
 import { plantRoutes } from '../modules/Plant/plant.route';
 import { aiScanRoutes } from '../modules/AiScan/aiScan.route';
 import { eventRoutes } from '../modules/Event/event.route';
+import { metaRoutes } from '../modules/Meta/meta.route';
 
 
 const router = express.Router();
@@ -76,6 +77,10 @@ const moduleRoutes = [
   {
     path: '/events',
     route: eventRoutes,
+  },
+  {
+    path: '/meta',
+    route: metaRoutes,
   },
 ];
 
