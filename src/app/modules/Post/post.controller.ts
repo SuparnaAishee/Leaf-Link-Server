@@ -40,7 +40,8 @@ const getSingleUserPosts = catchAsync(async (req, res) => {
   });
 });
 const getAllPost = catchAsync(async (req, res) => {
-  const token = req.headers.authorization;
+  // Header is "Bearer <jwt>"; pass only the raw JWT (verifyToken expects no prefix).
+  const token = req.headers.authorization?.split(' ')[1];
   const posts = await postService.getAllPostFromDB(token, req.query);
   sendResponse(res, {
     success: true,

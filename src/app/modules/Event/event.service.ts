@@ -2,6 +2,7 @@ import { JwtPayload } from 'jsonwebtoken';
 import httpStatus from 'http-status';
 import AppError from '../../errors/AppError';
 import { User } from '../User/user.model';
+import { USER_ROLE } from '../User/user.constant';
 import { Event } from './event.model';
 import { TEvent } from './event.interface';
 import { notificationService } from '../Notification/notification.service';
@@ -99,7 +100,8 @@ const deleteEvent = async (jwt: JwtPayload, id: string) => {
   if (!ev) {
     throw new AppError(httpStatus.NOT_FOUND, 'Event not found');
   }
-  if (ev.host.toString() !== me._id.toString()) {
+  // Host can delete their own event; an ADMIN can delete any event (moderation).
+  if (ev.host.toString() !== me._id.toString() && me.role !== USER_ROLE.ADMIN) {
     throw new AppError(httpStatus.FORBIDDEN, 'Only the host can delete');
   }
   await Event.findByIdAndDelete(id);

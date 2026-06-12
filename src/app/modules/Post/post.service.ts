@@ -355,23 +355,28 @@ const getAllPostFromDB = async (
   // Base match conditions, allowing premium posts by default
   const matchConditions: any = {};
 
-  // Token-based premium access check
+  // Token-based premium access check. A bad/expired token must not 401 this
+  // otherwise-public endpoint — fall back to the anonymous view instead.
   if (token) {
-    const decoded = verifyToken(
-      token,
-      config.jwt_access_secret as string
-    ) as JwtPayload;
-    const { email } = decoded;
-    const isUserExist = await User.findOne({ email });
+    try {
+      const decoded = verifyToken(
+        token,
+        config.jwt_access_secret as string
+      ) as JwtPayload;
+      const { email } = decoded;
+      const isUserExist = await User.findOne({ email });
 
-    // Check user's premium status and update match conditions
-    if (
-      isUserExist &&
-      !isUserExist.isVerified &&
-      !isUserExist.premiumStatus &&
-      isUserExist.role === 'USER'
-    ) {
-      matchConditions.isPremium = false; // Non-premium users cannot see premium posts
+      // Check user's premium status and update match conditions
+      if (
+        isUserExist &&
+        !isUserExist.isVerified &&
+        !isUserExist.premiumStatus &&
+        isUserExist.role === 'USER'
+      ) {
+        matchConditions.isPremium = false; // Non-premium users cannot see premium posts
+      }
+    } catch {
+      // Invalid/expired token → treat as anonymous; premium filtering handled below.
     }
   }
 
