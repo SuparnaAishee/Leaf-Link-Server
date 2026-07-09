@@ -21,6 +21,8 @@ import { Post } from './app/modules/Post/post.model';
 import { Comment } from './app/modules/Comment/comment.model';
 
 const AVATARS = {
+  demo:
+    'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=200&h=200&fit=crop',
   sarah:
     'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&h=200&fit=crop',
   mike:
@@ -120,6 +122,16 @@ const usersSeed: SeedUser[] = [
     role: 'ADMIN',
     bio: 'Keeping the garden tidy.',
     profilePhoto: AVATARS.admin,
+  },
+  {
+    key: 'demo',
+    name: 'Demo User',
+    email: 'demo@leaflink.app',
+    password: 'demo1234',
+    role: 'USER',
+    bio: 'Exploring the LeafLink community 🌱',
+    profilePhoto: AVATARS.mike,
+    isVerified: true,
   },
   {
     key: 'asha',
@@ -387,6 +399,24 @@ const postsSeed: SeedPost[] = [
     imageUrl:
       'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&fit=crop',
   },
+  {
+    author: 'demo',
+    title: 'Starting my first raised bed — wish me luck!',
+    category: 'Outdoor',
+    description:
+      'Built my first raised bed this weekend, inspired by everyone here. Going with tomatoes, basil and a couple of pepper plants. Any tips for a total beginner?',
+    imageUrl:
+      'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?w=800&fit=crop&sat=10',
+  },
+  {
+    author: 'demo',
+    title: 'My balcony herb corner is finally taking shape 🌿',
+    category: 'Herbs',
+    description:
+      'Mint, basil and chives on a small balcony rack. Southeast facing so it only gets morning sun, but they all seem happy so far.',
+    imageUrl:
+      'https://images.unsplash.com/photo-1618375569909-3c8616cf7733?w=800&fit=crop&sat=-10',
+  },
 ];
 
 // Comments keyed by post index -> [ [authorKey, text], ... ]
@@ -395,12 +425,14 @@ const commentsSeed: Record<number, [keyof typeof AVATARS, string][]> = {
     ['mike', 'Great tip! My basil always flowers too early.'],
     ['lily', 'Mine is on a south-facing window and loving it.'],
     ['sophie', 'Pinching really is the secret — agreed.'],
+    ['demo', 'Trying this on my balcony basil right now, thank you!'],
   ],
   1: [
     ['sarah', 'Those look incredible 😍'],
     ['raj', 'Mulching really is underrated for tomatoes.'],
     ['emma', 'Congrats on the harvest!'],
     ['ben', 'How are your evening temps? Mine drop too fast.'],
+    ['demo', 'So inspiring — hoping for something similar this summer!'],
   ],
   2: [
     ['lily', 'Tulips are the best part of spring.'],
@@ -443,6 +475,15 @@ const commentsSeed: Record<number, [keyof typeof AVATARS, string][]> = {
   17: [
     ['sarah', 'I need to remember to pinch — I always forget the first time.'],
   ],
+  20: [
+    ['sarah', 'Welcome to raised beds! Cedar or pine?'],
+    ['mike', "Tomatoes + basil is a classic combo, you'll love it."],
+    ['raj', "Mulch it well once it warms up and you'll thank yourself later."],
+  ],
+  21: [
+    ['lily', 'Balcony herb gardens are so satisfying — looks great!'],
+    ['sophie', 'Chives are so low maintenance, good choice.'],
+  ],
 };
 
 // Follow relationships: follower -> following
@@ -477,6 +518,13 @@ const followsSeed: [keyof typeof AVATARS, keyof typeof AVATARS][] = [
   ['sophie', 'ben'],
   ['yara', 'diego'],
   ['nina', 'owen'],
+  // Demo account — give it a lived-in social graph
+  ['demo', 'sarah'],
+  ['demo', 'mike'],
+  ['demo', 'lily'],
+  ['sarah', 'demo'],
+  ['mike', 'demo'],
+  ['raj', 'demo'],
 ];
 
 async function seed() {
